@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flood Prediction Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .risk-high { background-color: #ff6b6b; color: white; }
+        .risk-low { background-color: #06d6a0; color: white; }
+        #plot { width: 100%; height: 400px; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Flood Prediction System</h1>
+        <div class="card mb-4 {{ 'risk-high' if risk_level=='HIGH' else 'risk-low' }}">
+            <div class="card-body">
+                <h2 class="card-title">{{ risk_level }} RISK</h2>
+                <div class="row">
+                    <div class="col">
+                        <p>Water Level: {{ current_level }} m</p>
+                    </div>
+                    <div class="col">
+                        <p>Rainfall: {{ current_rainfall }} mm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Forecast</h5>
+            </div>
+            <div class="card-body">
+                <div id="plot">{{ plot|safe }}</div>
+            </div>
+        </div>
+        {% if risk_level == 'HIGH' %}
+        <div class="alert alert-danger">
+            <strong>⚠️ WARNING!</strong> High flood probability in the next 24 hours.
+        </div>
+        {% endif %}
+    </div>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+</html>
